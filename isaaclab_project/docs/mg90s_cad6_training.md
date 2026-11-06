@@ -25,9 +25,8 @@
 접촉·슬립 센서는 진단에만 사용한다. 마찰 3단계, 단순 충돌 형상, 자기 충돌과
 시간별 로그의 실행 및 해석은 [체크리스트 반영 기록](hexapod_checklist_review.md)을 따른다.
 
-## Nav2 속도 명령 작업 (권장)
+## 속도 명령 작업
 
-실기 계층은 `L2 → ROS2 SLAM/Nav2 → /cmd_vel → 저수준 보행 정책`으로 고정한다.
 `Isaac-DKSH-MG90S-CAD6-Velocity-Direct-v0`는 68개 관측의 `command` 세 값을
 몸체 기준 `[vx, vy, wz]`로 모두 사용하며, 기존 직진 정책과 체크포인트를 공유하지 않는다.
 새 학습 폴더는 `dksh_mg90s_cad6_velocity_l2v1`이다. 명령 범위는 전진

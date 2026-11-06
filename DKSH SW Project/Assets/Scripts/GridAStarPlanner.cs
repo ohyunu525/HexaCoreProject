@@ -9,7 +9,6 @@ namespace DKSH.Spiderbot.Exploration
     /// Small Unity-only reference planner. Unknown and Occupied cells are blocked,
     /// Occupied cells receive a binary clearance radius, and diagonal corner cutting
     /// is forbidden. The returned path is greedily compressed with grid line of sight.
-    /// Production navigation is intentionally delegated to ROS2/Nav2.
     /// </summary>
     public sealed class GridAStarPlanner
     {

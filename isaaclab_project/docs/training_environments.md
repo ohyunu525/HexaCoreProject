@@ -100,8 +100,8 @@ L1 탐색 체크포인트는 입력 차원이 같더라도 시야·측정 주기
 학습·평가한 정책만 지정해야 합니다. 제공된 `balance_baseline.pt`는 자동 사용하지 않습니다.
 
 Unity `LidarScene`과 새 센서의 기본값도 L2 기준입니다. 360×32 광선, 5.55 Hz로 약 63,936 rays/s를
-사용하고 고도 -6°~90°에 수평 고도 0°를 포함합니다. ROS 브리지는 수평 광선을 선택해 `/scan`을
-발행합니다. Unity 메뉴 `DKSH/Spiderbot/Sensors/Run L2 Verification`에서 시야·수평 투영·양자화와
+사용하고 고도 -6°~90°에 수평 고도 0°를 포함합니다.
+Unity 메뉴 `DKSH/Spiderbot/Sensors/Run L2 Verification`에서 시야·수평 투영·양자화와
 저장된 씬 설정을 확인할 수 있습니다.
 
 ## 실제 L2 점군 입력
@@ -129,18 +129,10 @@ python .\isaaclab_project\scripts\l2_pointcloud_features.py .\points.json
 실기 입력 일치를 확인할 수 있습니다. 현재는 기하 근사와 입력 형식까지만 구현됐으며 실측 검증은
 아직 하지 않았습니다.
 
-하드웨어 launch는 같은 인코더를 사용하는 ROS2 `l2_policy_features` 실행 파일을 함께 시작하고,
-39개 수직 스캔을 묶은 `/unilidar/cloud` 프레임마다 `/policy/l2_features` (`Float32MultiArray`, 32개)를
-발행합니다. 공통 패키지 이름 `dksh_l1_features`와 이전 L1 오프라인 인코더는 호환용으로 유지합니다.
-프레임 ID가 `unilidar_lidar`가 아니면 좌표계 혼용을 막기 위해 해당 프레임을 거부합니다. L2는
-음각 구간도 사용하므로 수평 장착 상태에서도 들어오는 바닥점과 로봇 자체의 점은 장착 실측 후
-별도 전처리로 제거해야 합니다. 원시 점군을 그대로 정책에 적용하는 실기 검증은 아직 완료되지 않았습니다.
-
 2026-10-10 로컬 검증: Python 단위 테스트 103개 중 102개 통과, CUDA 비교 1개는 NVIDIA GPU가
 없어 생략했습니다. Unity 6000.5.3f1에서 C# 컴파일과 L2 음각 광선·수평 장애물 검출·양자화·씬
-설정 검증 및 기존 Frontier 검증을 통과했습니다. UDP/UART Compose 설정과 PowerShell 문법도
-검사했습니다.
-Isaac Sim 4환경 smoke/evaluate, Jazzy 이미지 빌드 및 실제 L2 점군 수신은 별도 장비에서 검증해야 합니다.
+설정 검증 및 기존 Frontier 검증을 통과했습니다.
+Isaac Sim 4환경 smoke/evaluate 및 실제 L2 점군 수신은 별도 장비에서 검증해야 합니다.
 
 ## 스모크 검사와 Python 실행
 
@@ -165,7 +157,7 @@ Python 스크립트를 직접 호출할 때는 `--environment`, `--difficulty`, 
 
 ## CAD6 계단 + 센서 관측 작업
 
-L2/BNO086이 있다고 가정한 저수준 계단 정책은 기존 Nav2 속도 명령/평지 정책과
+L2/BNO086이 있다고 가정한 저수준 계단 정책은 기존 평지 속도 명령 정책과
 별도 task와 checkpoint를 사용합니다. 실행: `run_stairs.ps1`.
 관측 계약·센서 근사·20~120 mm curriculum·실행 결과는
 [계단 센서 학습 기록](stair_sensor_training.md)을 참고하세요.

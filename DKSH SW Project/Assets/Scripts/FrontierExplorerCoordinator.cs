@@ -14,8 +14,7 @@ namespace DKSH.Spiderbot.Exploration
 
     /// <summary>
     /// Owns the single standalone exploration loop: select a reachable Frontier,
-    /// plan a grid path, follow it, and request a new goal. ROS2/Nav2 replaces this
-    /// component in the production robot stack.
+    /// plan a grid path, follow it, and request a new goal.
     /// </summary>
     [DisallowMultipleComponent]
     public sealed class FrontierExplorerCoordinator : MonoBehaviour

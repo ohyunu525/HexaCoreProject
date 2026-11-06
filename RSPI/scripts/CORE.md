@@ -3,8 +3,7 @@
 `CORE.py`는 센서/ESP32가 없어도 **가상 상태 → 68개 관측값 → ONNX 정책의 18개 출력 → 화면/JSONL 기록**을 한 번 실행합니다. 모터 명령은 만들거나 전송하지 않습니다.
 
 현재 대응하는 학습 작업은 `Isaac-DKSH-MG90S-CAD6-Velocity-Direct-v0`입니다. 이 저수준 보행 정책의
-관측에는 LiDAR·카메라·목표 위치가 들어 있지 않습니다. LiDAR는 ROS2 SLAM/Nav2가 `/cmd_vel`을
-생성하는 상위 계층에서 사용하고, 보행 정책은 그 속도 명령을 `command` 관측으로 받는 구조입니다.
+관측에는 LiDAR·카메라·목표 위치가 들어 있지 않습니다. 보행 정책은 몸체 기준 속도 명령을 `command` 관측으로 받습니다.
 검증된 선택 정책과 ONNX 파일은 `isaaclab_project/policies/mg90s_cad6_velocity_l1v1`에 있습니다.
 보관된 L1 정책의 평가 기록은 L2 실기 전체 시스템의 검증 결과로 간주하지 않습니다.
 
@@ -50,7 +49,7 @@ ONNX Runtime의 CPU 패키지는 Linux ARM64를 지원하므로, Raspberry Pi에
 | `root_lin_vel_b` | 3 | 몸체 좌표계 선속도, m/s |
 | `root_ang_vel_b` | 3 | 몸체 좌표계 각속도, rad/s |
 | `projected_gravity_b` | 3 | 몸체 좌표계 중력 방향, 직립 시 `[0,0,-1]` |
-| `command` | 3 | 몸체 기준 목표 `[전진속도, 횡속도, 회전속도]`; Nav2 `/cmd_vel`의 세 축을 모두 사용 |
+| `command` | 3 | 몸체 기준 목표 `[전진속도, 횡속도, 회전속도]` |
 | `joint_pos` | 18 | 관절 현재 각도, rad; 관측에는 기본 각도를 뺀 값 사용 |
 | `default_joint_pos` | 18 | 학습 환경의 기본 관절 각도, rad; 관측 배열에는 별도 항목으로 들어가지 않음 |
 | `joint_vel` | 18 | 관절 각속도, rad/s; 관측 시 0.1배 |

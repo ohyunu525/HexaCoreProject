@@ -11,10 +11,6 @@ Isaac Lab 3.0 환경과 RSL-RL 설정을 사용합니다.
 이 씬은 Frontier 탐지·군집화·목표 선택, 8방향 A* 경로 계획,
 `CharacterController` 기반 경로 추종을 Unity 안에서 실행하도록 구성되어 있습니다.
 
-`ros2/`에는 ROS2/Nav2 연동을 위한 실험용 구성이 들어 있습니다.
-Unity 독립 실행에는 ROS2 설치나 컨테이너 기동이 필요하지 않습니다.
-[ROS2 연동 구성](ros2/README.md)
-
 ## CAD 설계와 개조
 
 [HEXAPOD Onshape 조립 모델](https://cad.onshape.com/documents/f646c0fde8bd91cfa43cbae7/w/279609403375cff4404c6eae/e/76a6985095c8e8f19d67aec6)에서 로봇의 부품과 관절 구성을 확인할 수 있습니다.
