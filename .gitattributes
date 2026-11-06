@@ -1,0 +1,7 @@
+*.py text eol=lf
+*.urdf text eol=lf
+*.md text eol=lf
+*.ps1 text eol=crlf
+*.usd binary
+*.pt binary
+*.png binary
