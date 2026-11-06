@@ -1,27 +1,19 @@
-# DKSH-Sw-contest
+# HexaCoreProject
 
-Unity 및 ROS2 기반 6족 Spiderbot 프로젝트입니다. 보행·계단 학습은 [RLForHexapod](RLForHexapod)의
+Unity에서 6족 Spiderbot의 자율 탐색을 시뮬레이션하는 프로젝트입니다. 보행·계단 학습은 [RLForHexapod](RLForHexapod)의
 Isaac Lab 3.0 환경과 RSL-RL 설정을 사용합니다.
 
 ## 6족 자율 탐색 빠른 시작
 
-Unity `LidarScene`에는 기존 Frontier 탐지·군집·목표 선택을 보존한 독립 실행 경로가 구성되어
-있습니다. 최소 8방향 A*, 이진 clearance, line-of-sight waypoint 압축,
-`CharacterController` 추종 및 단일 exploration coordinator를 사용합니다. ROS 브리지와
-locomotion adapter는 독립 실행 동작을 방해하지 않도록 씬에서 기본 비활성 상태입니다.
+1. Unity Hub에서 Unity `6000.5.3f1`로 `DKSH SW Project` 폴더를 엽니다.
+2. `Assets/Scenes/LidarScene.unity` 씬을 열고 Play를 누릅니다.
 
-ROS2 전환 경로는 `ros2` 폴더에 분리되어 있습니다. Docker Desktop을 시작한 뒤 다음처럼
-Unity TCP Endpoint만 먼저 올립니다.
+이 씬은 Frontier 탐지·군집화·목표 선택, 8방향 A* 경로 계획,
+`CharacterController` 기반 경로 추종을 Unity 안에서 실행하도록 구성되어 있습니다.
 
-```powershell
-.\ros2\manage.ps1 Start
-.\ros2\manage.ps1 Validate
-```
-
-Unity Play Mode에서 `/clock`, `/scan`, `/odom`, `/tf`를 게시할 때만 headless
-SLAM/Nav2 launch를 실행합니다. ROS 측은 Jazzy, SLAM Toolbox, SmacPlanner2D,
-MPPI Omni, velocity smoother, collision monitor와 검증된 Frontier 후보 v1.6.1을 사용합니다.
-[ROS2/Nav2 실행 안내](ros2/README.md)에서 연결 설정과 실행 명령을 확인할 수 있습니다.
+`ros2/`에는 ROS2/Nav2 연동을 위한 실험용 구성이 들어 있습니다.
+Unity 독립 실행에는 ROS2 설치나 컨테이너 기동이 필요하지 않습니다.
+[ROS2 연동 구성](ros2/README.md)
 
 ## CAD 설계와 개조
 
@@ -32,14 +24,16 @@ MPPI Omni, velocity smoother, collision monitor와 검증된 Frontier 후보 v1.
 ## RLForHexapod 학습
 
 학습 코드는 [RLForHexapod 원격 main의 dcbad6d](https://github.com/qorhvma/RLForHexapod/tree/dcbad6dc015cbe72d0a362a417b83a0c70713ecf)에서 가져왔습니다.
-Python 3.12와 uv를 사용합니다. Isaac Lab 3.0, Isaac Sim 6.2 및 CUDA 13.0용 PyTorch 버전은
-[프로젝트 설정](RLForHexapod/pyproject.toml)과 잠금 파일에 고정되어 있습니다.
+Python 3.12와 uv를 사용합니다. 기본 학습 환경은 Isaac Lab 3.0의 Newton/MJWarp를 사용합니다.
+로봇과 계단의 USD 자산을 받으려면 Git LFS가 필요합니다.
+의존성 버전은 [프로젝트 설정](RLForHexapod/pyproject.toml)과 잠금 파일에 고정되어 있습니다.
 
 ```powershell
+git lfs pull
 cd RLForHexapod
-uv sync --locked --extra isaacsim
-uv run --locked --extra isaacsim isaaclab list_envs
-uv run --locked --extra isaacsim isaaclab train --rl_library rsl_rl --task Hexapod-Walk --num_envs 4 physics=isaacsim_physx
+uv sync --locked
+uv run --locked isaaclab list_envs
+uv run --locked isaaclab train --rl_library rsl_rl --task Hexapod-Walk --num_envs 4
 ```
 
 계단 teacher는 `Hexapod-Stair`로 학습합니다. Student 환경과 평가 옵션은

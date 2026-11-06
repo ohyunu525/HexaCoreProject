@@ -1,4 +1,6 @@
-# DKSH Spiderbot ROS2/Nav2 runtime
+# Experimental ROS2/Nav2 integration
+
+This directory contains an optional integration configuration. The Unity quick start runs independently of this stack.
 
 This directory is the replaceable ROS2 navigation side of the project. Unity remains the sensor/physics simulator. The image includes the Unity bridge endpoint, the ROS2 frontier candidate, the required Nav2 runtime servers and `slam_toolbox`.
 
@@ -128,7 +130,7 @@ The launch deliberately omits waypoint follower and the standalone smoothing ser
 
 ## Headless smoke-test input
 
-`tools/smoke_test_inputs.py` publishes a transient empty map and static test-only TF chain. It is never included in the production launch; it exists only to activate every lifecycle node without opening Unity, RViz or Gazebo. The verified result is `Managed nodes are active` for SLAM Toolbox, MPPI, SmacPlanner2D, behavior server, BT navigator, velocity smoother and collision monitor.
+`tools/smoke_test_inputs.py` publishes a transient empty map and static test-only TF chain. It is never included in the production launch; it exists only to activate every lifecycle node without opening Unity, RViz or Gazebo. The expected result is `Managed nodes are active` for SLAM Toolbox, MPPI, SmacPlanner2D, behavior server, BT navigator, velocity smoother and collision monitor.
 
 Nav2 Jazzy currently prints a misleading SmacPlanner2D inflation-layer error during startup even when the 2D planner has a valid inflation layer ([upstream issue #6380](https://github.com/ros-navigation/navigation2/issues/6380)). The project uses a conservative 0.50 m inflation radius; MPPI accepts the footprint/inflation combination and the complete lifecycle stack activates. Do not reduce the radius merely to silence or investigate that message.
 
